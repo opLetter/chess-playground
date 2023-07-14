@@ -92,6 +92,8 @@ sealed external interface Config {
             override var afterNewPiece: (role: Role, key: String, metadata: MoveMetadata) -> Unit
         }
 
+        sealed interface EventsContext : SafeEvents
+
         override var events: SafeEvents
         override var rookCastle: Boolean
     }
@@ -112,13 +114,15 @@ sealed external interface Config {
             override var unset: () -> Unit
         }
 
-        sealed interface SafeEvents : Premovable.Events {
+        sealed interface SafeEvents : MutableEvents {
             @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
             override var set: (orig: String, dest: String, metadata: SetPremoveMetadata) -> Unit
 
             @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
             override var unset: () -> Unit
         }
+
+        sealed interface EventsContext : SafeEvents
 
         override var events: SafeEvents
     }
@@ -130,19 +134,21 @@ sealed external interface Config {
     sealed interface MutablePredroppable : Predroppable, SafePredroppable {
         override var enabled: Boolean
 
-        sealed interface SafeEvents : Predroppable.Events {
-            @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
-            override var set: (role: Role, key: String) -> Unit
-
-            @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
-            override var unset: () -> Unit
-        }
-
         @ConfigDsl
         sealed interface MutableEvents : Predroppable.Events {
             override var set: (role: Role, key: String) -> Unit
             override var unset: () -> Unit
         }
+
+        sealed interface SafeEvents : MutableEvents {
+            @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
+            override var set: (role: Role, key: String) -> Unit
+
+            @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
+            override var unset: () -> Unit
+        }
+
+        sealed interface EventsContext : SafeEvents
 
         override var events: SafeEvents
     }
@@ -170,14 +176,32 @@ sealed external interface Config {
     var selectable: SafeSelectable
 
     @ConfigDsl
-    sealed interface SafeEvents
-    sealed interface MutableEvents : SafeEvents, Events {
+    sealed interface MutableEvents : Events {
         override var change: () -> Unit
         override var move: (orig: String, dest: String, capturedPiece: Piece?) -> Unit
         override var dropNewPiece: (piece: Piece, key: String) -> Unit
         override var select: (key: String) -> Unit
         override var insert: (elements: Elements) -> Unit
     }
+
+    sealed interface SafeEvents : MutableEvents {
+        @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
+        override var change: () -> Unit
+
+        @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
+        override var move: (orig: String, dest: String, capturedPiece: Piece?) -> Unit
+
+        @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
+        override var dropNewPiece: (piece: Piece, key: String) -> Unit
+
+        @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
+        override var select: (key: String) -> Unit
+
+        @Deprecated("We don't like this", level = DeprecationLevel.HIDDEN)
+        override var insert: (elements: Elements) -> Unit
+    }
+
+    sealed interface EventsContext : SafeEvents
 
     var events: SafeEvents
 

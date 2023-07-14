@@ -72,26 +72,136 @@ fun ConfigBuilder(config: SafeConfig.() -> Unit): Config = jso(config).apply {
     if (check.asDynamic() /* != undefined */) this.asDynamic().check = check.value
 }
 
-fun SafeConfig.HighlightBuilder(config: Config.MutableHighlight.() -> Unit): Config.SafeHighlight = jso(config)
-fun SafeConfig.AnimationBuilder(config: Config.MutableAnimation.() -> Unit): Config.SafeAnimation = jso(config)
-fun SafeConfig.MovableBuilder(config: Config.MutableMovable.() -> Unit): Config.SafeMovable = jso(config)
-fun SafeConfig.PreMovableBuilder(config: Config.MutablePremovable.() -> Unit): Config.SafePremovable = jso(config)
-fun SafeConfig.PreDroppableBuilder(config: Config.MutablePredroppable.() -> Unit): Config.SafePredroppable = jso(config)
-fun SafeConfig.DraggableBuilder(config: Config.MutableDraggable.() -> Unit): Config.SafeDraggable = jso(config)
-fun SafeConfig.EventsBuilder(config: Config.MutableEvents.() -> Unit): Config.SafeEvents = jso(config)
-fun SafeConfig.DrawableBuilder(config: Config.MutableDrawable.() -> Unit): Config.SafeDrawable = jso(config)
+inline fun SafeConfig.HighlightBuilder(config: Config.MutableHighlight.() -> Unit): Config.SafeHighlight = jso(config)
+inline fun SafeConfig.AnimationBuilder(config: Config.MutableAnimation.() -> Unit): Config.SafeAnimation = jso(config)
+inline fun SafeConfig.MovableBuilder(config: Config.MutableMovable.() -> Unit): Config.SafeMovable = jso(config)
+inline fun SafeConfig.PreMovableBuilder(config: Config.MutablePremovable.() -> Unit): Config.SafePremovable =
+    jso(config)
 
-fun Config.MutableMovable.EventsBuilder(
-    config: Config.MutableMovable.MutableEvents.() -> Unit,
+inline fun SafeConfig.PreDroppableBuilder(config: Config.MutablePredroppable.() -> Unit): Config.SafePredroppable =
+    jso(config)
+
+inline fun SafeConfig.DraggableBuilder(config: Config.MutableDraggable.() -> Unit): Config.SafeDraggable = jso(config)
+inline fun SafeConfig.EventsBuilder(config: Config.EventsContext.() -> Unit): Config.SafeEvents = jso(config)
+inline fun SafeConfig.DrawableBuilder(config: Config.MutableDrawable.() -> Unit): Config.SafeDrawable = jso(config)
+
+// region movable
+
+inline fun Config.MutableMovable.EventsBuilder(
+    config: Config.MutableMovable.EventsContext.() -> Unit,
 ): Config.MutableMovable.SafeEvents = jso(config)
 
-fun Config.MutablePremovable.EventsBuilder(
-    config: Config.MutablePremovable.MutableEvents.() -> Unit,
+class MovableAfterEvent(
+    val orig: String,
+    val dest: String,
+    val metadata: MoveMetadata,
+)
+
+inline fun Config.MutableMovable.EventsContext.after(crossinline config: (MovableAfterEvent) -> Unit) {
+    val events: Config.MutableMovable.MutableEvents = this
+    events.after = { a, b, c -> config(MovableAfterEvent(a, b, c)) }
+}
+
+class MovableAfterNewPieceEvent(
+    val role: Role,
+    val key: String,
+    val metadata: MoveMetadata,
+)
+
+inline fun Config.MutableMovable.EventsContext.afterNewPiece(crossinline config: (MovableAfterNewPieceEvent) -> Unit) {
+    val events: Config.MutableMovable.MutableEvents = this
+    events.afterNewPiece = { a, b, c -> config(MovableAfterNewPieceEvent(a, b, c)) }
+}
+
+// endregion
+
+// region premovable
+
+inline fun Config.MutablePremovable.EventsBuilder(
+    config: Config.MutablePremovable.SafeEvents.() -> Unit,
 ): Config.MutablePremovable.SafeEvents = jso(config)
 
-fun Config.MutablePredroppable.EventsBuilder(
-    config: Config.MutablePredroppable.MutableEvents.() -> Unit,
+// purposely flatten ctrlKey structure
+class PremovableSetEvent(
+    val orig: String,
+    val dest: String,
+    val ctrlKey: Boolean?,
+)
+
+inline fun Config.MutablePremovable.EventsContext.set(crossinline config: (PremovableSetEvent) -> Unit) {
+    val events: Config.MutablePremovable.MutableEvents = this
+    events.set = { a, b, c -> config(PremovableSetEvent(a, b, c.ctrlKey)) }
+}
+
+inline fun Config.MutablePremovable.EventsContext.unset(noinline config: () -> Unit) {
+    val events: Config.MutablePremovable.MutableEvents = this
+    events.unset = config
+}
+
+// endregion
+
+// region predroppable
+
+inline fun Config.MutablePredroppable.EventsBuilder(
+    config: Config.MutablePredroppable.SafeEvents.() -> Unit,
 ): Config.MutablePredroppable.SafeEvents = jso(config)
+
+class PredroppableNewPieceEvent(
+    val role: Role,
+    val key: String,
+)
+
+inline fun Config.MutablePredroppable.EventsContext.set(crossinline config: (PredroppableNewPieceEvent) -> Unit) {
+    val events: Config.MutablePredroppable.MutableEvents = this
+    events.set = { a, b -> config(PredroppableNewPieceEvent(a, b)) }
+}
+
+inline fun Config.MutablePredroppable.EventsContext.unset(noinline config: () -> Unit) {
+    val events: Config.MutablePredroppable.MutableEvents = this
+    events.unset = config
+}
+
+// endregion
+
+// region events
+
+inline fun Config.EventsContext.change(noinline config: () -> Unit) {
+    val events: Config.MutableEvents = this
+    events.change = config
+}
+
+class MoveEvent(
+    val orig: String,
+    val dest: String,
+    val capturedPiece: Piece?,
+)
+
+inline fun Config.EventsContext.move(crossinline config: (MoveEvent) -> Unit) {
+    val events: Config.MutableEvents = this
+    events.move = { a, b, c -> config(MoveEvent(a, b, c)) }
+}
+
+class DropNewPieceEvent(
+    val piece: Piece,
+    val key: String,
+)
+
+inline fun Config.EventsContext.dropNewPiece(crossinline config: (DropNewPieceEvent) -> Unit) {
+    val events: Config.MutableEvents = this
+    events.dropNewPiece = { a, b -> config(DropNewPieceEvent(a, b)) }
+}
+
+inline fun Config.EventsContext.select(noinline config: (String) -> Unit) {
+    val events: Config.MutableEvents = this
+    events.select = config
+}
+
+inline fun Config.EventsContext.insert(noinline config: (Elements) -> Unit) {
+    val events: Config.MutableEvents = this
+    events.insert = config
+}
+
+// endregion
 
 @DslMarker
 annotation class ConfigDsl
