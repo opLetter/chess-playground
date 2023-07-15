@@ -6,7 +6,7 @@ import js.collections.JsMap
 import js.core.jso
 import js.core.tupleOf
 
-typealias Pieces = Map<String, Piece> // <Key, Piece>
+typealias Pieces = JsMap<String, Piece> // <Key, Piece>
 typealias Dests = JsMap<String, Array<String>> // <Key, List<Key>>
 typealias PiecesDiff = JsMap<String, Piece?> // <Key, Piece | undefined>
 
@@ -33,6 +33,16 @@ sealed external interface ChessColor {
     companion object {
         val White: ChessColor
         val Black: ChessColor
+    }
+}
+
+@JsName("{White: 'white', Black: 'black', Both: 'both', None: undefined}")
+sealed external interface MovableColor {
+    companion object {
+        val White: MovableColor
+        val Black: MovableColor
+        val Both: MovableColor
+        val None: MovableColor
     }
 }
 

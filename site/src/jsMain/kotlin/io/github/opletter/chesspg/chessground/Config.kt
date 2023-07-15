@@ -74,7 +74,7 @@ sealed external interface Config {
     sealed interface SafeMovable
     sealed interface MutableMovable : SafeMovable, Movable {
         override var free: Boolean
-        override var color: ChessColor
+        override var color: MovableColor
         override var dests: Dests
         override var showDests: Boolean
 

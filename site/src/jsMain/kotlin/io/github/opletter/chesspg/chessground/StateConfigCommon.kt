@@ -15,7 +15,7 @@ sealed external interface Animation {
 
 sealed external interface Movable {
     val free: Boolean
-    val color: ChessColor?
+    val color: MovableColor?
     val dests: Dests?
     val showDests: Boolean
 

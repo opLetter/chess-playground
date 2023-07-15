@@ -5,4 +5,4 @@ package io.github.opletter.chesspg.chessground
 
 import org.w3c.dom.HTMLElement
 
-external fun Chessground(element: HTMLElement, config: Config): Api
+external fun Chessground(element: HTMLElement, config: Config? = definedExternally): Api
