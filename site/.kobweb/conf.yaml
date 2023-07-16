@@ -11,4 +11,10 @@ server:
       script: "build/distributions/chesspg.js"
       siteRoot: ".kobweb/site"
 
+  cors:
+    hosts:
+      - name: "chess-playground.onrender.com"
+        schemes:
+          - "https"
+
   port: 8080
