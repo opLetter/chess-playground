@@ -23,7 +23,7 @@ sealed external interface Config {
     var dynamicCheck: dynamic
 
     /** squares part of the last move ["c3"; "c4"] */
-    var lastMove: List<String>
+    var lastMove: Array<String>
 
     /** square currently selected "a1" */
     var selected: String
@@ -107,6 +107,7 @@ sealed external interface Config {
         override var showDests: Boolean
         override var castle: Boolean
         override var dests: List<String>
+        override var customDests: List<String>
 
         @ConfigDsl
         sealed interface MutableEvents : Premovable.Events {

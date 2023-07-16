@@ -33,6 +33,7 @@ sealed external interface Premovable {
     val showDests: Boolean?
     val castle: Boolean?
     val dests: List<String>?
+    val customDests: List<String>?
 
     sealed interface Events {
         val set: ((orig: String, dest: String, metadata: SetPremoveMetadata) -> Unit)?
