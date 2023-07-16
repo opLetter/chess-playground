@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.jetbrains.compose)
     alias(libs.plugins.kobweb.application)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 group = "io.github.opletter.chesspg"
@@ -25,6 +26,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
+                implementation(libs.kobweb.streams)
+                implementation(libs.kotlinx.serialization.json)
             }
         }
 
