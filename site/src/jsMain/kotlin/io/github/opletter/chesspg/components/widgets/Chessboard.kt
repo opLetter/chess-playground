@@ -354,13 +354,11 @@ val VisualsBoardStyle by ComponentStyle {
     }
     cssRule(" cg-board square.move-dest:hover") {
         Modifier
-            .styleModifier { background(Color.rgba(20, 85, 30, 0.3f).toString()) }
-//            .background(Color.rgba(20, 85, 30, 0.3f)) // TODO: next kobweb version
+            .background(Color.rgba(20, 85, 30, 0.3f))
     }
     cssRule(" cg-board square.premove-dest:hover") {
         Modifier
-            .styleModifier { background(Color.rgba(20, 30, 85, 0.2f).toString()) }
-//            .background(Color.rgba(20, 30, 85, 0.2f)) // TODO: next kobweb version
+            .background(Color.rgba(20, 30, 85, 0.2f))
     }
     cssRule(" cg-board square.last-move") {
         Modifier
