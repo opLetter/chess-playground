@@ -26,7 +26,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(compose.runtime)
-                implementation(libs.kobweb.streams)
                 implementation(libs.kotlinx.serialization.json)
             }
         }
