@@ -30,7 +30,7 @@ val ChessGameScreenStyle by ComponentStyle {
             .padding(1.cssRem)
             .fillMaxSize()
     }
-    Breakpoint.MD {
+    Breakpoint.LG {
         Modifier
             .gridTemplateRows(GridTemplate.Unset)
             .gridTemplateColumns { size(1.fr); size(2.fr); size(1.fr) }
@@ -73,6 +73,5 @@ fun ChessGameScreen(header: String, curState: ClientState.ActiveGame, onBack: ()
                 .aspectRatio(1)
                 .maxHeight(700.px)
         )
-        Box()
     }
 }
