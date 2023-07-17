@@ -11,6 +11,9 @@ server:
       script: "build/distributions/chesspg.js"
       siteRoot: ".kobweb/site"
 
+  logging:
+    level: DEBUG
+
   cors:
     hosts:
       - name: "chess-playground.onrender.com"
