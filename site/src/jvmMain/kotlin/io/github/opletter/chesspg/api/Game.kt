@@ -31,7 +31,7 @@ val GameStream = object : ApiStream() {
                     database.registerGame(newGame)
 
                     ctx.stream.send(ChessStreamEvent.GameFound(newGame.getRole(ctx.clientId)))
-                    ctx.stream.broadcast(ChessStreamEvent.GameFound(newGame.getRole(other)), listOf(other))
+                    ctx.stream.sendTo(ChessStreamEvent.GameFound(newGame.getRole(other)), listOf(other))
                 }
             }
 
@@ -54,7 +54,7 @@ val GameStream = object : ApiStream() {
                     }
                     val winner = game.gameBackend.winner
 
-                    ctx.stream.broadcast(
+                    ctx.stream.sendTo(
                         value = ChessStreamEvent.GameOver(
                             gameId = game.id.toString(),
                             state = gameState,
@@ -64,7 +64,7 @@ val GameStream = object : ApiStream() {
                         clientIds = game.watchers + game.white + game.black,
                     )
                 } else {
-                    ctx.stream.broadcast(
+                    ctx.stream.sendTo(
                         value = ChessStreamEvent.GameStateUpdate(state = gameState, gameId = game.id.toString()),
                         clientIds = game.watchers + game.white + game.black,
                     )
@@ -80,7 +80,7 @@ val GameStream = object : ApiStream() {
                 val game = database.games[UUID.fromString(event.gameId)] ?: return
                 game.watchers.add(ctx.clientId)
 
-                ctx.stream.broadcast(
+                ctx.stream.sendTo(
                     ChessStreamEvent.GameStateUpdate(
                         state = game.gameBackend.customGameState(game.lastMove),
                         gameId = game.id.toString(),
@@ -99,7 +99,7 @@ val GameStream = object : ApiStream() {
         val game = database.getGame(ctx.clientId) ?: return
         database.unregisterGame(game)
 
-        ctx.stream.broadcast(
+        ctx.stream.sendTo(
             value = ChessStreamEvent.GameOver(
                 game.id.toString(),
                 game.gameBackend.customGameState(game.lastMove),
