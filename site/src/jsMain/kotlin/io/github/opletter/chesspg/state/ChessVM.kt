@@ -59,9 +59,8 @@ class ChessVM(private val coroutineScope: CoroutineScope) {
             }
 
             is ClientState.Playing -> {
-                val api = state.controller.boardApi ?: return
-
                 if (event is ChessStreamEvent.GameStateUpdate) {
+                    val api = state.controller.boardApi ?: return
                     api.set(ConfigBuilder {
                         applyGameState(event.state)
                         movable = MovableBuilder {
@@ -71,7 +70,7 @@ class ChessVM(private val coroutineScope: CoroutineScope) {
                     api.playPremove()
                 }
                 if (event is ChessStreamEvent.GameOver) {
-                    api.set(ConfigBuilder {
+                    state.controller.boardApi?.set(ConfigBuilder {
                         applyGameState(event.state)
                         movable = MovableBuilder { color = MovableColor.None }
                     })
