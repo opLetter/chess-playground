@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.streams.ApiStream
+import com.varabyte.kobweb.streams.connect
 import io.github.opletter.chesspg.chessground.*
 import io.github.opletter.chesspg.models.ChessStreamEvent
 import io.github.opletter.chesspg.models.CustomGameState
@@ -113,7 +114,7 @@ class ChessVM(private val coroutineScope: CoroutineScope) {
 
     init {
         coroutineScope.launch {
-            stream.connect { handleMessage(it) }
+            stream.connect { ctx -> handleMessage(ctx.text) }
         }
     }
 
