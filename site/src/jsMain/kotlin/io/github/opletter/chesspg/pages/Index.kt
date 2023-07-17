@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import com.varabyte.kobweb.compose.foundation.layout.Box
+import com.varabyte.kobweb.compose.foundation.layout.Column
 import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
+import com.varabyte.kobweb.compose.ui.modifiers.fillMaxHeight
 import com.varabyte.kobweb.compose.ui.modifiers.fillMaxSize
 import com.varabyte.kobweb.core.Page
 import io.github.opletter.chesspg.components.sections.ChessGameScreen
@@ -33,8 +35,10 @@ fun HomePage() {
             }
 
             is ClientState.LookingForGame -> {
-                HeaderTitle()
-                H2 { Text("Looking for game...") }
+                Column(Modifier.fillMaxHeight(), horizontalAlignment = Alignment.CenterHorizontally) {
+                    HeaderTitle()
+                    H2 { Text("Looking for game...") }
+                }
             }
 
             is ClientState.Playing -> {
