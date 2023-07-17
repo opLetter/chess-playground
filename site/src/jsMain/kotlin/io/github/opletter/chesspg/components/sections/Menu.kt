@@ -16,6 +16,7 @@ import io.github.opletter.chesspg.chessground.AnimationBuilder
 import io.github.opletter.chesspg.chessground.ConfigBuilder
 import io.github.opletter.chesspg.components.widgets.ChessController
 import io.github.opletter.chesspg.components.widgets.Chessboard
+import io.github.opletter.chesspg.components.widgets.HeaderTitle
 import io.github.opletter.chesspg.state.ClientState
 import kotlinx.browser.window
 import kotlinx.coroutines.delay
@@ -26,6 +27,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @Composable
 fun Menu(state: ClientState.Menu, lookForGame: () -> Unit, watchGame: (id: String, fen: String?) -> Unit) {
+    HeaderTitle()
     Column(Modifier.gap(1.cssRem), horizontalAlignment = Alignment.CenterHorizontally) {
         Button(onClick = { lookForGame() }) {
             Text("Look for game")

@@ -3,10 +3,7 @@ package io.github.opletter.chesspg.components.widgets
 import androidx.compose.runtime.Composable
 import com.varabyte.kobweb.compose.css.*
 import com.varabyte.kobweb.compose.css.AlignItems
-import com.varabyte.kobweb.compose.css.functions.RadialGradient
-import com.varabyte.kobweb.compose.css.functions.radialGradient
-import com.varabyte.kobweb.compose.css.functions.toImage
-import com.varabyte.kobweb.compose.css.functions.url
+import com.varabyte.kobweb.compose.css.functions.*
 import com.varabyte.kobweb.compose.dom.ref
 import com.varabyte.kobweb.compose.foundation.layout.Box
 import com.varabyte.kobweb.compose.ui.Modifier
@@ -158,23 +155,17 @@ val MainBoardStyles by ComponentStyle {
             .display(DisplayStyle.Flex)
             .pointerEvents(PointerEvents.None)
             .userSelect(UserSelect.None) // from lichess website
-//            .color(Colors.White)
             .fontWeight(FontWeight.Bold)
-//            .opacity(0.8)
             .fontFamily("sans-serif")
-//            .fontSize(9.px)
     }
     cssRule(" coords.ranks") {
         Modifier
             .top(1.px)
-            .right(0.px)
-//            .right((-15).px)
-//            .top(0.px)
-//            .left(4.px)
-//            .top((-20).px)
+            .right(1.px)
             .flexDirection(FlexDirection.ColumnReverse)
             .fillMaxHeight()
             .width(12.px)
+            .textAlign(TextAlign.End)
     }
     cssRule(" coords.ranks.black") {
         Modifier
@@ -187,19 +178,13 @@ val MainBoardStyles by ComponentStyle {
     }
     cssRule(" coords.files") {
         Modifier
-//            .bottom((-16).px)
-//            .left(0.px)
-            // these?
             .bottom(0.px)
             .left(0.px)
-            // don't know why these exist
-//            .bottom((-4).px)
-//            .left(24.px)
             .flexDirection(FlexDirection.Row)
             .fillMaxWidth()
             .height(16.px)
-//            .textTransform(TextTransform.Uppercase)
             .textAlign(TextAlign.Left)
+            .alignItems(AlignItems.End)
     }
     cssRule(" coords.files.black") {
         Modifier
@@ -208,7 +193,7 @@ val MainBoardStyles by ComponentStyle {
     cssRule(" coords coord") {
         Modifier
             .flex(1, 1, numericAuto)
-            .fontSize(12.px) // TODO: responsive
+            .fontSize(clamp(8.px, 2.vw, 12.px))
     }
     cssRule(" coords.files coord") {
         Modifier
