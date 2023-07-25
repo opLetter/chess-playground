@@ -19,5 +19,8 @@ server:
       - name: "chess-playground.onrender.com"
         schemes:
           - "https"
+      - name: "chess-playground.fly.dev"
+        schemes:
+          - "https"
 
   port: 8080
