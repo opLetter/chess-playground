@@ -30,6 +30,8 @@ class Database {
     fun getGame(streamerId: StreamClientId) = games[players[streamerId]]
 
     fun registerGame(game: ChessGame) {
+        stopWatchingAllGames(game.white)
+        stopWatchingAllGames(game.black)
         games[game.id] = game
         players[game.white] = game.id
         players[game.black] = game.id
@@ -39,6 +41,10 @@ class Database {
         games.remove(game.id)
         players.remove(game.white)
         players.remove(game.black)
+    }
+
+    private fun stopWatchingAllGames(streamerId: StreamClientId) {
+        games.values.forEach { it.watchers.remove(streamerId) }
     }
 }
 
