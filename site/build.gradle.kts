@@ -36,8 +36,7 @@ kotlin {
                 implementation(libs.kobweb.core)
                 implementation(libs.kobweb.silk.core)
                 implementation(libs.kobweb.silk.icons.fa)
-                implementation(libs.kotlin.js.wrappers)
-                implementation(npm("chessground", "8.3.12"))
+                implementation(projects.chessground)
             }
         }
         val jvmMain by getting {

@@ -1,7 +1,7 @@
 @file:JsModule("chessground")
 @file:JsNonModule
 
-package io.github.opletter.chesspg.chessground
+package io.github.opletter.chessground
 
 external fun toggleOrientation(state: HeadlessState)
 

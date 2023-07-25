@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.streams.ApiStream
 import com.varabyte.kobweb.streams.connect
-import io.github.opletter.chesspg.chessground.*
+import io.github.opletter.chessground.*
 import io.github.opletter.chesspg.models.ChessStreamEvent
 import io.github.opletter.chesspg.models.CustomGameState
 import io.github.opletter.chesspg.models.toMessage

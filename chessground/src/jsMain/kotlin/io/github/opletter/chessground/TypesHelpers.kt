@@ -1,6 +1,6 @@
 @file:Suppress("NAME_CONTAINS_ILLEGAL_CHARS", "NESTED_CLASS_IN_EXTERNAL_INTERFACE")
 
-package io.github.opletter.chesspg.chessground
+package io.github.opletter.chessground
 
 import js.collections.JsMap
 import js.core.jso

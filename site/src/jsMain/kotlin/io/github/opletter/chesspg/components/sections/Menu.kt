@@ -11,8 +11,8 @@ import com.varabyte.kobweb.compose.ui.Alignment
 import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.Button
-import io.github.opletter.chesspg.chessground.AnimationBuilder
-import io.github.opletter.chesspg.chessground.ConfigBuilder
+import io.github.opletter.chessground.AnimationBuilder
+import io.github.opletter.chessground.ConfigBuilder
 import io.github.opletter.chesspg.components.widgets.ChessController
 import io.github.opletter.chesspg.components.widgets.Chessboard
 import io.github.opletter.chesspg.components.widgets.HeaderTitle

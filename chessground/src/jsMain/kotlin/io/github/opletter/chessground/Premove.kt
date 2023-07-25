@@ -1,4 +1,4 @@
-package io.github.opletter.chesspg.chessground
+package io.github.opletter.chessground
 
 @JsModule("chessground/premove")
 @JsNonModule

@@ -1,7 +1,7 @@
 @file:JsModule("chessground")
 @file:JsNonModule
 
-package io.github.opletter.chesspg.chessground
+package io.github.opletter.chessground
 
 sealed external interface Highlight {
     val lastMove: Boolean

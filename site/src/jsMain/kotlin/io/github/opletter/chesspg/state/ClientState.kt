@@ -3,9 +3,9 @@ package io.github.opletter.chesspg.state
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import io.github.opletter.chessground.*
 import io.github.opletter.chesspg.chessbackend.Game
 import io.github.opletter.chesspg.chessbackend.getAllAvailableMovesAsStrings
-import io.github.opletter.chesspg.chessground.*
 import io.github.opletter.chesspg.components.widgets.ChessController
 
 sealed interface ClientState {

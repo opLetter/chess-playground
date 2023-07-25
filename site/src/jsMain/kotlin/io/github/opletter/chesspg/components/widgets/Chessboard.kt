@@ -13,9 +13,9 @@ import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
 import com.varabyte.kobweb.silk.components.style.ComponentStyle
 import com.varabyte.kobweb.silk.components.style.toModifier
-import io.github.opletter.chesspg.chessground.Api
-import io.github.opletter.chesspg.chessground.Chessground
-import io.github.opletter.chesspg.chessground.Config
+import io.github.opletter.chessground.Api
+import io.github.opletter.chessground.Chessground
+import io.github.opletter.chessground.Config
 import org.jetbrains.compose.web.css.*
 
 class ChessController(val initialConfig: Config) {

@@ -8,4 +8,7 @@ pluginManagement {
 
 rootProject.name = "chesspg"
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+include(":chessground")
 include(":site")
