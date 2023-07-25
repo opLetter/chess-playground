@@ -9,7 +9,7 @@ sealed external interface Api {
     /** reconfigure the instance. Accepts all config options, except for viewOnly & drawable.visible.
      * board will be animated accordingly, if animations are enabled.
      */
-    fun set(config: Config) // TODO: config
+    fun set(config: Config)
 
     /** read chessground state; write at your own risks. */
     val state: State

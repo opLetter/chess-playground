@@ -5,7 +5,6 @@ package io.github.opletter.chesspg.chessground
 
 import org.w3c.dom.HTMLElement
 
-
 // all values are optional and `Config` is only passed, never returned, so `var`s work fine
 @ConfigDsl
 sealed external interface Config {
