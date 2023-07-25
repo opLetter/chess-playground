@@ -15,7 +15,8 @@ sealed interface ClientState {
         abstract val controller: ChessController
     }
 
-    class Menu(val watch: (String) -> Unit, val unwatch: (String) -> Unit) : ClientState {
+    @Suppress("CanSealedSubClassBeObject")
+    class Menu : ClientState {
         var activeGames by mutableStateOf(emptyMap<String, ChessController>())
     }
 

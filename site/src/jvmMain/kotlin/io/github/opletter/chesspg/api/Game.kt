@@ -11,7 +11,8 @@ import java.util.*
 
 val GameStream = object : ApiStream() {
     override suspend fun onClientConnected(ctx: ClientConnectedContext) {
-        ctx.logger.debug("User connected: ${ctx.clientId}")
+        val database = ctx.data.getValue<Database>()
+        database.inMenu.add(ctx.clientId)
     }
 
     override suspend fun onTextReceived(ctx: TextReceivedContext) {
@@ -24,6 +25,8 @@ val GameStream = object : ApiStream() {
                 } else {
                     val other = database.lookingForGame.first()
                     database.lookingForGame.remove(other)
+                    database.inMenu.remove(other)
+                    database.inMenu.remove(ctx.clientId)
 
                     val players = listOf(ctx.clientId, other).shuffled()
                     val newGame = ChessGame(players[0], players[1])
@@ -41,6 +44,7 @@ val GameStream = object : ApiStream() {
                 game.lastMove = event.from to event.to
 
                 val gameState = game.gameBackend.customGameState(game.lastMove)
+                val messageRecipients = game.watchers + game.white + game.black + database.inMenu
 
                 if (game.gameBackend.isGameOver) {
                     database.unregisterGame(game)
@@ -61,23 +65,19 @@ val GameStream = object : ApiStream() {
                             reason = reason,
                             winner = winner?.toString(),
                         ),
-                        clientIds = game.watchers + game.white + game.black,
+                        clientIds = messageRecipients,
                     )
                 } else {
                     ctx.stream.sendTo(
                         value = ChessStreamEvent.GameStateUpdate(state = gameState, gameId = game.id.toString()),
-                        clientIds = game.watchers + game.white + game.black,
+                        clientIds = messageRecipients,
                     )
                 }
             }
 
-            is ChessStreamEvent.UnwatchGame -> {
-                val game = database.games[UUID.fromString(event.gameId)] ?: return
-                game.watchers.remove(ctx.clientId)
-            }
-
             is ChessStreamEvent.WatchGame -> {
                 val game = database.games[UUID.fromString(event.gameId)] ?: return
+                database.inMenu.remove(ctx.clientId)
                 game.watchers.add(ctx.clientId)
 
                 ctx.stream.sendTo(
@@ -85,7 +85,7 @@ val GameStream = object : ApiStream() {
                         state = game.gameBackend.customGameState(game.lastMove),
                         gameId = game.id.toString(),
                     ),
-                    game.watchers
+                    game.watchers + database.inMenu,
                 )
             }
         }
@@ -95,6 +95,7 @@ val GameStream = object : ApiStream() {
         val database = ctx.data.getValue<Database>()
 
         database.lookingForGame.remove(ctx.clientId)
+        database.inMenu.remove(ctx.clientId)
 
         val game = database.getGame(ctx.clientId) ?: return
         database.unregisterGame(game)

@@ -57,25 +57,18 @@ fun Menu(state: ClientState.Menu, lookForGame: () -> Unit, watchGame: (id: Strin
     LaunchedEffect(Unit) {
         while (true) {
             val gameIds = window.api.get("activegames").decodeToString()
-                .split(",").filter { it.isNotEmpty() }
+                .split(",")
+                .filter { it.isNotEmpty() }
+                .associate { it.substringBefore(":") to it.substringAfter(":") }
 
-            val newActiveGames = gameIds.associateWith { id ->
-                state.activeGames[id] ?: run {
-                    state.watch(id)
-                    ChessController(ConfigBuilder {
-                        viewOnly = true
-                        coordinates = false
-                        animation = AnimationBuilder { enabled = false } // initially
-                    })
-                }
+            state.activeGames = gameIds.mapValues { (id, fen) ->
+                state.activeGames[id] ?: ChessController(ConfigBuilder {
+                    this.fen = fen
+                    viewOnly = true
+                    coordinates = false
+                    animation = AnimationBuilder { enabled = false } // initially
+                })
             }
-
-            // not needed in current state since all active games are watched
-            state.activeGames.keys.subtract(newActiveGames.keys).forEach { id ->
-                state.unwatch(id)
-            }
-
-            state.activeGames = newActiveGames
 
             delay(10.seconds)
         }

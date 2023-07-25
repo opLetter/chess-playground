@@ -35,9 +35,6 @@ sealed interface ChessStreamEvent {
     data class WatchGame(val gameId: String) : ClientSide
 
     @Serializable
-    data class UnwatchGame(val gameId: String) : ClientSide
-
-    @Serializable
     data class GameOver(
         val gameId: String,
         val state: CustomGameState,

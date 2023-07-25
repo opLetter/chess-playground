@@ -21,12 +21,7 @@ import kotlin.time.Duration.Companion.seconds
 class ChessVM(private val coroutineScope: CoroutineScope) {
     private val stream = ApiStream("game")
 
-    private val defaultMenuState = ClientState.Menu(
-        watch = { stream.send(ChessStreamEvent.WatchGame(it)) },
-        unwatch = { stream.send(ChessStreamEvent.UnwatchGame(it)) },
-    )
-
-    var state: ClientState by mutableStateOf(defaultMenuState)
+    var state: ClientState by mutableStateOf(ClientState.Menu())
         private set
 
     private fun handleMessage(str: String) {
@@ -129,7 +124,7 @@ class ChessVM(private val coroutineScope: CoroutineScope) {
     }
 
     fun backToMenu() {
-        state = defaultMenuState
+        state = ClientState.Menu()
     }
 }
 
