@@ -7,6 +7,7 @@ import androidx.compose.runtime.setValue
 import com.varabyte.kobweb.streams.ApiStream
 import com.varabyte.kobweb.streams.connect
 import io.github.opletter.chessground.*
+import io.github.opletter.chesspg.components.widgets.ChessController
 import io.github.opletter.chesspg.models.ChessStreamEvent
 import io.github.opletter.chesspg.models.CustomGameState
 import io.github.opletter.chesspg.models.toMessage
@@ -15,7 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import kotlin.time.Duration.Companion.seconds
+import kotlin.time.Duration.Companion.milliseconds
 
 @Stable
 class ChessVM(private val coroutineScope: CoroutineScope) {
@@ -38,32 +39,29 @@ class ChessVM(private val coroutineScope: CoroutineScope) {
 
             is ClientState.Menu -> {
                 if (event is ChessStreamEvent.GameStateUpdate) {
-                    coroutineScope.launch {
-                        while (state.activeGames[event.gameId]?.boardApi == null) {
-                            delay(0.5.seconds)
-                        }
-                        val api = state.activeGames[event.gameId]?.boardApi ?: error("game api not found in menu")
-                        api.set(ConfigBuilder {
+                    state.activeGames[event.gameId]?.runWhenBoardApiAvailable {
+                        it.set(ConfigBuilder {
                             applyGameState(event.state)
-                            animation = AnimationBuilder { enabled = api.state.lastMove != null }
+                            animation = AnimationBuilder { enabled = it.state.lastMove != null }
                         })
                     }
                 }
                 if (event is ChessStreamEvent.GameOver) {
-                    state.activeGames = state.activeGames - event.gameId
+                    state.activeGames -= event.gameId
                 }
             }
 
             is ClientState.Playing -> {
                 if (event is ChessStreamEvent.GameStateUpdate) {
-                    val api = state.controller.boardApi ?: return
-                    api.set(ConfigBuilder {
-                        applyGameState(event.state)
-                        movable = MovableBuilder {
-                            dests = event.state.possibleMoves.toJsMap()
-                        }
-                    })
-                    api.playPremove()
+                    state.controller.runWhenBoardApiAvailable {
+                        it.set(ConfigBuilder {
+                            applyGameState(event.state)
+                            movable = MovableBuilder {
+                                dests = event.state.possibleMoves.toJsMap()
+                            }
+                        })
+                        it.playPremove()
+                    }
                 }
                 if (event is ChessStreamEvent.GameOver) {
                     state.controller.boardApi?.set(ConfigBuilder {
@@ -85,15 +83,10 @@ class ChessVM(private val coroutineScope: CoroutineScope) {
 
             is ClientState.Watching -> {
                 if (event is ChessStreamEvent.GameStateUpdate) {
-                    // TODO: deduplify w/menu?
-                    coroutineScope.launch {
-                        while (state.controller.boardApi == null) {
-                            delay(0.5.seconds)
-                        }
-                        val api = state.controller.boardApi ?: error("game api not found in menu")
-                        api.set(ConfigBuilder {
+                    state.controller.runWhenBoardApiAvailable {
+                        it.set(ConfigBuilder {
                             applyGameState(event.state)
-                            animation = AnimationBuilder { enabled = api.state.lastMove != null }
+                            animation = AnimationBuilder { enabled = it.state.lastMove != null }
                         })
                     }
                 }
@@ -104,6 +97,20 @@ class ChessVM(private val coroutineScope: CoroutineScope) {
                     state.bannerMessage = "$mainMessage $info"
                 }
             }
+        }
+    }
+
+    private inline fun ChessController.runWhenBoardApiAvailable(crossinline block: (Api) -> Unit) {
+        val api = boardApi
+        if (api != null) {
+            block(api)
+            return
+        }
+        coroutineScope.launch {
+            while (boardApi == null) {
+                delay(200.milliseconds)
+            }
+            block(boardApi!!)
         }
     }
 
