@@ -2,7 +2,7 @@
 jetbrains-compose = "1.4.1"
 kobweb = "0.13.9"
 kotlin = "1.8.20"
-kotlin-js-wrappers = "1.0.0-pre.595"
+kotlin-js-wrappers = "1.0.0-pre.599"
 serialization = "1.5.1"
 
 [libraries]
