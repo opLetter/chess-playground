@@ -4,7 +4,7 @@ import com.varabyte.kobweb.api.data.add
 import com.varabyte.kobweb.api.init.InitApi
 import com.varabyte.kobweb.api.init.InitApiContext
 import com.varabyte.kobweb.api.stream.StreamClientId
-import io.github.opletter.chesspg.chessbackend.Game
+import io.github.opletter.chess.Game
 import java.util.*
 
 class ChessGame(
@@ -13,7 +13,7 @@ class ChessGame(
     val watchers: MutableSet<StreamClientId> = mutableSetOf(),
     val id: UUID = UUID.randomUUID(),
     var lastMove: Pair<String, String>? = null,
-    val gameBackend: Game = Game.create()!!,
+    val gameBackend: Game = Game(),
 )
 
 fun ChessGame.getRole(streamerId: StreamClientId) = when (streamerId) {

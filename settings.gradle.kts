@@ -10,5 +10,6 @@ rootProject.name = "chesspg"
 
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
+include(":chess")
 include(":chessground")
 include(":site")

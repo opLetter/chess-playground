@@ -1,8 +1,7 @@
 package io.github.opletter.chesspg.models
 
-import io.github.opletter.chesspg.chessbackend.Game
-import io.github.opletter.chesspg.chessbackend.fen.FenSerializer
-import io.github.opletter.chesspg.chessbackend.getAllAvailableMovesAsStrings
+import io.github.opletter.chess.Game
+import io.github.opletter.chess.toFen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -42,7 +41,7 @@ sealed interface ChessStreamEvent {
         val winner: String?,
     ) : ServerSide {
         enum class Reason {
-            PlayerLeft, Checkmate, Stalemate, ThreefoldRepetition, InsufficientMaterial
+            PlayerLeft, Checkmate, Stalemate, ThreefoldRepetition, InsufficientMaterial, FiftyMoves
         }
     }
 }
@@ -55,6 +54,7 @@ fun ChessStreamEvent.GameOver.Reason.toMessage(): String {
         ChessStreamEvent.GameOver.Reason.Stalemate -> "Stalemate!"
         ChessStreamEvent.GameOver.Reason.ThreefoldRepetition -> "Threefold repetition."
         ChessStreamEvent.GameOver.Reason.InsufficientMaterial -> "Insufficient material."
+        ChessStreamEvent.GameOver.Reason.FiftyMoves -> "Fifty moves without a capture or pawn move."
     }
 }
 
@@ -69,10 +69,16 @@ class CustomGameState(
 
 fun Game.customGameState(lastMove: Pair<String, String>?): CustomGameState {
     return CustomGameState(
-        turnColor = state.currentColor.toString(),
-        fen = FenSerializer.serialize(state),
+        turnColor = state.turn.toString(),
+        fen = state.toFen().toString(),
         lastMove = lastMove,
         possibleMoves = getAllAvailableMovesAsStrings(),
-        inCheck = isCheck
+        inCheck = state.inCheck,
     )
+}
+
+fun Game.getAllAvailableMovesAsStrings(): Map<String, Array<String>> {
+    return state.allAvailableMoveTargets.entries.associate { (k, v) ->
+        k.toString() to v.map { it.toString() }.toTypedArray()
+    }
 }

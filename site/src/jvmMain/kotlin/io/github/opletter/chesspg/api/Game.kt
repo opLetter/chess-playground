@@ -2,8 +2,9 @@ package io.github.opletter.chesspg.api
 
 import com.varabyte.kobweb.api.data.getValue
 import com.varabyte.kobweb.api.stream.ApiStream
+import io.github.opletter.chess.GameResult
+import io.github.opletter.chess.Square
 import io.github.opletter.chesspg.*
-import io.github.opletter.chesspg.chessbackend.move
 import io.github.opletter.chesspg.models.ChessStreamEvent
 import io.github.opletter.chesspg.models.customGameState
 import kotlinx.serialization.json.Json
@@ -40,23 +41,25 @@ val GameStream = object : ApiStream() {
 
             is ChessStreamEvent.Move -> {
                 val game = database.getGame(ctx.clientId) ?: error("game not found for ${ctx.clientId}")
-                game.gameBackend.move(event.from, event.to)
+                game.gameBackend.move(Square(event.from), Square(event.to))
                 game.lastMove = event.from to event.to
 
                 val gameState = game.gameBackend.customGameState(game.lastMove)
                 val messageRecipients = game.watchers + game.white + game.black + database.inMenu
 
-                if (game.gameBackend.isGameOver) {
+                val gameResult = game.gameBackend.result
+
+                if (gameResult != null) {
                     database.unregisterGame(game)
 
-                    val reason = when {
-                        game.gameBackend.isStalemate -> ChessStreamEvent.GameOver.Reason.Stalemate
-                        game.gameBackend.isThreefoldRepetition -> ChessStreamEvent.GameOver.Reason.ThreefoldRepetition
-                        game.gameBackend.isInsufficientMaterial -> ChessStreamEvent.GameOver.Reason.InsufficientMaterial
-                        game.gameBackend.isCheckmate -> ChessStreamEvent.GameOver.Reason.Checkmate
-                        else -> error("Game over but no reason found")
+                    val reason = when (gameResult) {
+                        is GameResult.Checkmate -> ChessStreamEvent.GameOver.Reason.Checkmate
+                        GameResult.FiftyMoves -> ChessStreamEvent.GameOver.Reason.FiftyMoves
+                        GameResult.InsufficientMaterial -> ChessStreamEvent.GameOver.Reason.InsufficientMaterial
+                        GameResult.Stalemate -> ChessStreamEvent.GameOver.Reason.Stalemate
+                        GameResult.ThreefoldRepetition -> ChessStreamEvent.GameOver.Reason.ThreefoldRepetition
                     }
-                    val winner = game.gameBackend.winner
+                    val winner = if (gameResult is GameResult.Checkmate) gameResult.winner else null
 
                     ctx.stream.sendTo(
                         value = ChessStreamEvent.GameOver(

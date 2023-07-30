@@ -27,6 +27,7 @@ kotlin {
             dependencies {
                 implementation(compose.runtime)
                 implementation(libs.kotlinx.serialization.json)
+                implementation(projects.chess)
             }
         }
 

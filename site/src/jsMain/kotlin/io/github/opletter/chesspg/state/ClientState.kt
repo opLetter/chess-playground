@@ -3,10 +3,10 @@ package io.github.opletter.chesspg.state
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import io.github.opletter.chess.Game
 import io.github.opletter.chessground.*
-import io.github.opletter.chesspg.chessbackend.Game
-import io.github.opletter.chesspg.chessbackend.getAllAvailableMovesAsStrings
 import io.github.opletter.chesspg.components.widgets.ChessController
+import io.github.opletter.chesspg.models.getAllAvailableMovesAsStrings
 
 sealed interface ClientState {
     sealed class ActiveGame : ClientState {
@@ -29,7 +29,7 @@ sealed interface ClientState {
                 color = if (playerColor == ChessColor.White) MovableColor.White else MovableColor.Black
                 free = false
                 // TODO: have this as a predefined constant?
-                dests = Game.create()!!.getAllAvailableMovesAsStrings().toJsMap()
+                dests = Game().getAllAvailableMovesAsStrings().toJsMap()
                 events = EventsBuilder {
                     after { afterMove(it) }
                 }
