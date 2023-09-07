@@ -6,14 +6,14 @@ group = "io.github.opletter.chessground"
 version = "1.0-SNAPSHOT"
 
 kotlin {
-    js(IR) {
+    js {
         browser()
     }
 
     sourceSets {
         val jsMain by getting {
             dependencies {
-                implementation(libs.kotlin.js.wrappers)
+                api(libs.kotlin.js.wrappers) // exposes types like JsMap
                 implementation(npm("chessground", "8.3.12"))
             }
         }

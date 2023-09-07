@@ -6,7 +6,7 @@ group = "io.github.opletter.chess"
 version = "1.0-SNAPSHOT"
 
 kotlin {
-    js(IR) {
+    js {
         browser()
     }
     jvm()

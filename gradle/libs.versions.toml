@@ -1,9 +1,9 @@
 [versions]
-jetbrains-compose = "1.4.1"
-kobweb = "0.13.12"
-kotlin = "1.8.20"
-kotlin-js-wrappers = "1.0.0-pre.599"
-serialization = "1.5.1"
+jetbrains-compose = "1.5.1"
+kobweb = "0.14.0"
+kotlin = "1.9.10"
+kotlin-js-wrappers = "1.0.0-pre.623"
+serialization = "1.6.0"
 
 [libraries]
 kobweb-api = { module = "com.varabyte.kobweb:kobweb-api", version.ref = "kobweb" }
