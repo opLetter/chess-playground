@@ -192,7 +192,7 @@ val MainBoardStyles by ComponentStyle {
     }
     cssRule(" coords coord") {
         Modifier
-            .flex(1, 1, numericAuto)
+            .flex(1, 1, autoLength)
             .fontSize(clamp(8.px, 2.vw, 12.px))
     }
     cssRule(" coords.files coord") {
