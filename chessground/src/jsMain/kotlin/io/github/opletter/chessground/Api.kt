@@ -3,7 +3,7 @@
 
 package io.github.opletter.chessground
 
-import js.core.JsTuple2
+import js.array.JsTuple2
 
 sealed external interface Api {
     /** reconfigure the instance. Accepts all config options, except for viewOnly & drawable.visible.

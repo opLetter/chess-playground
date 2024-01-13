@@ -23,27 +23,20 @@ kotlin {
     configAsKobwebApplication("chesspg", includeServer = true)
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(compose.runtime)
-                implementation(libs.kotlinx.serialization.json)
-                implementation(projects.chess)
-            }
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(projects.chess)
         }
-
-        val jsMain by getting {
-            dependencies {
-                implementation(compose.html.core)
-                implementation(libs.kobweb.core)
-                implementation(libs.kobweb.silk)
-                implementation(libs.silk.icons.fa)
-                implementation(projects.chessground)
-            }
+        jsMain.dependencies {
+            implementation(compose.html.core)
+            implementation(libs.kobweb.core)
+            implementation(libs.kobweb.silk)
+            implementation(libs.silk.icons.fa)
+            implementation(projects.chessground)
         }
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.kobweb.api)
-            }
+        jvmMain.dependencies {
+            implementation(libs.kobweb.api)
         }
     }
 }

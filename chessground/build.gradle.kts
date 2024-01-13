@@ -11,11 +11,9 @@ kotlin {
     }
 
     sourceSets {
-        val jsMain by getting {
-            dependencies {
-                api(libs.kotlin.js.wrappers) // exposes types like JsMap
-                implementation(npm("chessground", "8.3.12"))
-            }
+        jsMain.dependencies {
+            api(libs.kotlin.js.wrappers) // exposes types like JsMap
+            implementation(npm("chessground", "8.3.12"))
         }
     }
 }

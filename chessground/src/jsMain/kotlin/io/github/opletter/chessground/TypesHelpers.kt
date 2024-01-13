@@ -2,9 +2,9 @@
 
 package io.github.opletter.chessground
 
+import js.array.tupleOf
 import js.collections.JsMap
-import js.core.jso
-import js.core.tupleOf
+import js.objects.jso
 
 typealias Pieces = JsMap<String, Piece> // <Key, Piece>
 typealias Dests = JsMap<String, Array<String>> // <Key, List<Key>>
