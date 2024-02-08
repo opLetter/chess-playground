@@ -637,6 +637,11 @@ chessground@8.3.12:
   resolved "https://registry.yarnpkg.com/chessground/-/chessground-8.3.12.tgz#963dce11e0d770a68cd02ff6f8f0497de30b2919"
   integrity sha512-jL/HuSWi7+fFc+EmKrW7KrX02Pxgx/AH561hItlfquaTJI8H6MxuX4M/TCWrotsQkk5kxMwb34VQqNrNoIsPCw==
 
+chessground@9.0.4:
+  version "9.0.4"
+  resolved "https://registry.yarnpkg.com/chessground/-/chessground-9.0.4.tgz#47d2f24e54234164084b60bcc2a69e499d506206"
+  integrity sha512-KeZd/kcXSKQOGO6LOKu/3bAyVSMh7hgPPharMF15HMfNlHfcBpIVZIDAQRO2PNaNMzPWl0LKc05uFHt0D+lZGA==
+
 chokidar@3.5.3, chokidar@^3.5.1, chokidar@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"

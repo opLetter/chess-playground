@@ -13,7 +13,7 @@ kotlin {
     sourceSets {
         jsMain.dependencies {
             api(libs.kotlin.js.wrappers) // exposes types like JsMap
-            implementation(npm("chessground", "8.3.12"))
+            implementation(npm("chessground", "9.0.4"))
         }
     }
 }

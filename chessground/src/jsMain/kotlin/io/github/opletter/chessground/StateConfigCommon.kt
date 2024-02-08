@@ -3,9 +3,12 @@
 
 package io.github.opletter.chessground
 
+import js.collections.JsMap
+
 sealed external interface Highlight {
     val lastMove: Boolean
     val check: Boolean
+    val custom: JsMap<String, String> // <Key, String>
 }
 
 sealed external interface Animation {
