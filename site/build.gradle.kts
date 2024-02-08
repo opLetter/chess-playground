@@ -1,3 +1,4 @@
+import com.varabyte.kobweb.gradle.application.extensions.AppBlock
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
 
 plugins {
@@ -12,10 +13,11 @@ version = "1.0-SNAPSHOT"
 
 kobweb {
     app {
+        legacyRouteRedirectStrategy = AppBlock.LegacyRouteRedirectStrategy.DISALLOW
         index {
             description = "Powered by Kobweb"
         }
-        server.remoteDebugging.enabled = true
+//        server.remoteDebugging.enabled = true
     }
 }
 

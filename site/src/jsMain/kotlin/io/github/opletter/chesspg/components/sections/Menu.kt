@@ -56,7 +56,7 @@ fun Menu(state: ClientState.Menu, lookForGame: () -> Unit, watchGame: (id: Strin
     }
     LaunchedEffect(Unit) {
         while (true) {
-            val gameIds = window.api.get("activegames").decodeToString()
+            val gameIds = window.api.get("active-games").decodeToString()
                 .split(",")
                 .filter { it.isNotEmpty() }
                 .associate { it.substringBefore(":") to it.substringAfter(":") }
