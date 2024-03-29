@@ -20,7 +20,7 @@ sealed interface ClientState {
         var activeGames by mutableStateOf(emptyMap<String, ChessController>())
     }
 
-    object LookingForGame : ClientState
+    data object LookingForGame : ClientState
 
     class Playing(val playerColor: ChessColor, afterMove: (MovableAfterEvent) -> Unit) : ActiveGame() {
         override val controller = ChessController(ConfigBuilder {

@@ -13,7 +13,7 @@ sealed interface ChessStreamEvent {
     sealed interface ServerSide : ChessStreamEvent
 
     @Serializable
-    object LookingForGame : ClientSide
+    data object LookingForGame : ClientSide
 
     @Serializable
     data class GameFound(val color: String) : ServerSide
