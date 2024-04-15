@@ -13,7 +13,7 @@ FROM java as export
 # final stage, we'll only extract what we need from this stage, saving a lot
 # of space.
 
-ENV KOBWEB_CLI_VERSION=0.9.13
+ENV KOBWEB_CLI_VERSION=0.9.15
 ARG KOBWEB_APP_ROOT
 
 ENV NODE_MAJOR=20
