@@ -11,8 +11,8 @@ import com.varabyte.kobweb.compose.ui.graphics.Color
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.compose.ui.styleModifier
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.toModifier
+import com.varabyte.kobweb.silk.style.CssStyle
+import com.varabyte.kobweb.silk.style.toModifier
 import io.github.opletter.chessground.Api
 import io.github.opletter.chessground.Chessground
 import io.github.opletter.chessground.Config
@@ -36,7 +36,7 @@ fun Chessboard(controller: ChessController, modifier: Modifier = Modifier) {
 }
 
 
-val MainBoardStyles by ComponentStyle {
+val MainBoardStyles = CssStyle {
     base {
         Modifier
             .boxSizing(BoxSizing.ContentBox)
@@ -201,7 +201,7 @@ val MainBoardStyles by ComponentStyle {
     }
 }
 
-val VisualsBoardStyle by ComponentStyle {
+val VisualsBoardStyle = CssStyle {
     cssRule(" piece.pawn.white") {
         Modifier
             .backgroundImage(

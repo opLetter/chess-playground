@@ -11,9 +11,9 @@ import com.varabyte.kobweb.compose.ui.Modifier
 import com.varabyte.kobweb.compose.ui.graphics.Colors
 import com.varabyte.kobweb.compose.ui.modifiers.*
 import com.varabyte.kobweb.silk.components.forms.Button
-import com.varabyte.kobweb.silk.components.style.ComponentStyle
-import com.varabyte.kobweb.silk.components.style.breakpoint.Breakpoint
-import com.varabyte.kobweb.silk.components.style.toAttrs
+import com.varabyte.kobweb.silk.style.CssStyle
+import com.varabyte.kobweb.silk.style.breakpoint.Breakpoint
+import com.varabyte.kobweb.silk.style.toAttrs
 import io.github.opletter.chesspg.components.widgets.Chessboard
 import io.github.opletter.chesspg.state.ClientState
 import org.jetbrains.compose.web.css.*
@@ -21,7 +21,7 @@ import org.jetbrains.compose.web.dom.Div
 import org.jetbrains.compose.web.dom.H2
 import org.jetbrains.compose.web.dom.Text
 
-val ChessGameScreenStyle by ComponentStyle {
+val ChessGameScreenStyle = CssStyle {
     base {
         Modifier
             .display(DisplayStyle.Grid)
