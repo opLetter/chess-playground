@@ -1,7 +1,7 @@
 package io.github.opletter.chesspg
 
 import androidx.compose.runtime.Composable
-import com.varabyte.kobweb.compose.css.CSSBackground
+import com.varabyte.kobweb.compose.css.Background
 import com.varabyte.kobweb.compose.css.FontWeight
 import com.varabyte.kobweb.compose.css.functions.LinearGradient
 import com.varabyte.kobweb.compose.css.functions.linearGradient
@@ -44,7 +44,7 @@ fun updateTheme(ctx: InitSilkContext) {
                 .fontWeight(FontWeight.Bold)
                 .color(Color.rgb(0x909090).lightened())
                 .background(
-                    CSSBackground(
+                    Background.of(
                         image = linearGradient(LinearGradient.Direction.ToBottom) {
                             add(Color.hsl(37.deg, 7.percent, 22.percent))
                             add(Color.hsl(37.deg, 5.percent, 19.percent), 100.percent)
@@ -56,7 +56,7 @@ fun updateTheme(ctx: InitSilkContext) {
             Modifier
                 .color(Color.rgb(0xc0c0c0).lightened())
                 .background(
-                    CSSBackground(
+                    Background.of(
                         image = linearGradient(LinearGradient.Direction.ToBottom) {
                             add(Color.hsl(37.deg, 7.percent, 25.percent))
                             add(Color.hsl(37.deg, 5.percent, 22.percent), 100.percent)

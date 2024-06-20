@@ -312,7 +312,7 @@ val VisualsBoardStyle = CssStyle {
     cssRule(" cg-board square.move-dest") {
         // copied from lichess to avoid fuzziness of chessground
         Modifier.background(
-            CSSBackground(image = radialGradient {
+            Background.of(image = radialGradient {
                 add(Color.rgba(20, 85, 30, 0.5f), 19.percent)
                 add(Color.rgba(0, 0, 0, 0f), 20.percent)
             }.toImage())
@@ -321,7 +321,7 @@ val VisualsBoardStyle = CssStyle {
     cssRule(" cg-board square.premove-dest") {
         //radial-gradient(rgba(20, 30, 85, 0.5) 19%, rgba(0, 0, 0, 0) 20%)
         Modifier.background(
-            CSSBackground(
+            Background.of(
                 image = radialGradient {
                     add(Color.rgba(20, 30, 85, 0.5f), 19.percent)
                     add(Color.rgba(0, 0, 0, 0f), 20.percent)
@@ -331,7 +331,7 @@ val VisualsBoardStyle = CssStyle {
     }
     cssRule(" cg-board square.oc.move-dest") {
         Modifier.background(
-            CSSBackground(
+            Background.of(
                 image = radialGradient {
                     add(Colors.Transparent, 0.percent)
                     add(Colors.Transparent, 80.percent) // or 79
@@ -343,7 +343,7 @@ val VisualsBoardStyle = CssStyle {
     cssRule(" cg-board square.oc.premove-dest") {
         Modifier
             .background(
-                CSSBackground(
+                Background.of(
                     image = radialGradient {
                         add(Colors.Transparent, 0.percent)
                         add(Colors.Transparent, 80.percent) // or 79
@@ -354,11 +354,11 @@ val VisualsBoardStyle = CssStyle {
     }
     cssRule(" cg-board square.move-dest:hover") {
         Modifier
-            .background(Color.rgba(20, 85, 30, 0.3f))
+            .backgroundColor(Color.rgba(20, 85, 30, 0.3f))
     }
     cssRule(" cg-board square.premove-dest:hover") {
         Modifier
-            .background(Color.rgba(20, 30, 85, 0.2f))
+            .backgroundColor(Color.rgba(20, 30, 85, 0.2f))
     }
     cssRule(" cg-board square.last-move") {
         Modifier
@@ -371,7 +371,7 @@ val VisualsBoardStyle = CssStyle {
     cssRule(" cg-board square.check") {
         Modifier
             .background(
-                CSSBackground(
+                Background.of(
                     image = radialGradient(RadialGradient.Shape.Ellipse, CSSPosition.Center) {
                         add(Color.rgba(255, 0, 0, 1f), 0.percent)
                         add(Color.rgba(231, 0, 0, 1f), 25.percent)
