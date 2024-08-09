@@ -23,3 +23,6 @@ out
 
 # Gradle ignores
 .gradle
+
+# Kotlin ignores
+.kotlin
