@@ -1,4 +1,5 @@
 import com.varabyte.kobweb.gradle.application.util.configAsKobwebApplication
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -21,6 +22,11 @@ kobweb {
 
 kotlin {
     configAsKobwebApplication("chesspg", includeServer = true)
+    js {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions.target = "es2015"
+    }
+
 
     sourceSets {
         commonMain.dependencies {
